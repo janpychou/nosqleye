@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.org.openwork.nosql.mapper.RedisStatusHistoryMapper" >
+  <resultMap id="BaseResultMap" type="cn.org.openwork.nosql.bean.RedisStatusHistory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="server_id" property="serverId" jdbcType="BIGINT" />
+    <result column="connected_clients" property="connectedClients" jdbcType="VARCHAR" />
+    <result column="blocked_clients" property="blockedClients" jdbcType="VARCHAR" />
+    <result column="used_memory" property="usedMemory" jdbcType="VARCHAR" />
+    <result column="used_memory_human" property="usedMemoryHuman" jdbcType="VARCHAR" />
+    <result column="used_memory_rss" property="usedMemoryRss" jdbcType="VARCHAR" />
+    <result column="used_memory_rss_human" property="usedMemoryRssHuman" jdbcType="VARCHAR" />
+    <result column="used_memory_peak" property="usedMemoryPeak" jdbcType="VARCHAR" />
+    <result column="used_memory_peak_human" property="usedMemoryPeakHuman" jdbcType="VARCHAR" />
+    <result column="mem_fragmentation_ratio" property="memFragmentationRatio" jdbcType="VARCHAR" />
+    <result column="total_system_memory" property="totalSystemMemory" jdbcType="VARCHAR" />
+    <result column="total_system_memory_human" property="totalSystemMemoryHuman" jdbcType="VARCHAR" />
+    <result column="total_connections_received" property="totalConnectionsReceived" jdbcType="VARCHAR" />
+    <result column="total_commands_processed" property="totalCommandsProcessed" jdbcType="VARCHAR" />
+    <result column="instantaneous_ops_per_sec" property="instantaneousOpsPerSec" jdbcType="VARCHAR" />
+    <result column="total_net_input_bytes" property="totalNetInputBytes" jdbcType="VARCHAR" />
+    <result column="total_net_output_bytes" property="totalNetOutputBytes" jdbcType="VARCHAR" />
+    <result column="expired_keys" property="expiredKeys" jdbcType="VARCHAR" />
+    <result column="used_cpu_sys" property="usedCpuSys" jdbcType="VARCHAR" />
+    <result column="used_cpu_user" property="usedCpuUser" jdbcType="VARCHAR" />
+    <result column="keyspace" property="keyspace" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, server_id, connected_clients, blocked_clients, used_memory, used_memory_human, 
+    used_memory_rss, used_memory_rss_human, used_memory_peak, used_memory_peak_human, 
+    mem_fragmentation_ratio, total_system_memory, total_system_memory_human, total_connections_received, 
+    total_commands_processed, instantaneous_ops_per_sec, total_net_input_bytes, total_net_output_bytes, 
+    expired_keys, used_cpu_sys, used_cpu_user, keyspace, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from redis_status_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart >= 0" >
+      limit ${limitStart} , ${pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from redis_status_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from redis_status_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistoryExample" >
+    delete from redis_status_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistory" useGeneratedKeys="true" keyProperty="id" >
+    insert into redis_status_history (id, server_id, connected_clients, 
+      blocked_clients, used_memory, used_memory_human, 
+      used_memory_rss, used_memory_rss_human, used_memory_peak, 
+      used_memory_peak_human, mem_fragmentation_ratio, 
+      total_system_memory, total_system_memory_human, 
+      total_connections_received, total_commands_processed, 
+      instantaneous_ops_per_sec, total_net_input_bytes, 
+      total_net_output_bytes, expired_keys, used_cpu_sys, 
+      used_cpu_user, keyspace, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{serverId,jdbcType=BIGINT}, #{connectedClients,jdbcType=VARCHAR}, 
+      #{blockedClients,jdbcType=VARCHAR}, #{usedMemory,jdbcType=VARCHAR}, #{usedMemoryHuman,jdbcType=VARCHAR}, 
+      #{usedMemoryRss,jdbcType=VARCHAR}, #{usedMemoryRssHuman,jdbcType=VARCHAR}, #{usedMemoryPeak,jdbcType=VARCHAR}, 
+      #{usedMemoryPeakHuman,jdbcType=VARCHAR}, #{memFragmentationRatio,jdbcType=VARCHAR}, 
+      #{totalSystemMemory,jdbcType=VARCHAR}, #{totalSystemMemoryHuman,jdbcType=VARCHAR}, 
+      #{totalConnectionsReceived,jdbcType=VARCHAR}, #{totalCommandsProcessed,jdbcType=VARCHAR}, 
+      #{instantaneousOpsPerSec,jdbcType=VARCHAR}, #{totalNetInputBytes,jdbcType=VARCHAR}, 
+      #{totalNetOutputBytes,jdbcType=VARCHAR}, #{expiredKeys,jdbcType=VARCHAR}, #{usedCpuSys,jdbcType=VARCHAR}, 
+      #{usedCpuUser,jdbcType=VARCHAR}, #{keyspace,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistory" useGeneratedKeys="true" keyProperty="id" >
+    insert into redis_status_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serverId != null" >
+        server_id,
+      </if>
+      <if test="connectedClients != null" >
+        connected_clients,
+      </if>
+      <if test="blockedClients != null" >
+        blocked_clients,
+      </if>
+      <if test="usedMemory != null" >
+        used_memory,
+      </if>
+      <if test="usedMemoryHuman != null" >
+        used_memory_human,
+      </if>
+      <if test="usedMemoryRss != null" >
+        used_memory_rss,
+      </if>
+      <if test="usedMemoryRssHuman != null" >
+        used_memory_rss_human,
+      </if>
+      <if test="usedMemoryPeak != null" >
+        used_memory_peak,
+      </if>
+      <if test="usedMemoryPeakHuman != null" >
+        used_memory_peak_human,
+      </if>
+      <if test="memFragmentationRatio != null" >
+        mem_fragmentation_ratio,
+      </if>
+      <if test="totalSystemMemory != null" >
+        total_system_memory,
+      </if>
+      <if test="totalSystemMemoryHuman != null" >
+        total_system_memory_human,
+      </if>
+      <if test="totalConnectionsReceived != null" >
+        total_connections_received,
+      </if>
+      <if test="totalCommandsProcessed != null" >
+        total_commands_processed,
+      </if>
+      <if test="instantaneousOpsPerSec != null" >
+        instantaneous_ops_per_sec,
+      </if>
+      <if test="totalNetInputBytes != null" >
+        total_net_input_bytes,
+      </if>
+      <if test="totalNetOutputBytes != null" >
+        total_net_output_bytes,
+      </if>
+      <if test="expiredKeys != null" >
+        expired_keys,
+      </if>
+      <if test="usedCpuSys != null" >
+        used_cpu_sys,
+      </if>
+      <if test="usedCpuUser != null" >
+        used_cpu_user,
+      </if>
+      <if test="keyspace != null" >
+        keyspace,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="serverId != null" >
+        #{serverId,jdbcType=BIGINT},
+      </if>
+      <if test="connectedClients != null" >
+        #{connectedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="blockedClients != null" >
+        #{blockedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemory != null" >
+        #{usedMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryHuman != null" >
+        #{usedMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryRss != null" >
+        #{usedMemoryRss,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryRssHuman != null" >
+        #{usedMemoryRssHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryPeak != null" >
+        #{usedMemoryPeak,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryPeakHuman != null" >
+        #{usedMemoryPeakHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="memFragmentationRatio != null" >
+        #{memFragmentationRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSystemMemory != null" >
+        #{totalSystemMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSystemMemoryHuman != null" >
+        #{totalSystemMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="totalConnectionsReceived != null" >
+        #{totalConnectionsReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCommandsProcessed != null" >
+        #{totalCommandsProcessed,jdbcType=VARCHAR},
+      </if>
+      <if test="instantaneousOpsPerSec != null" >
+        #{instantaneousOpsPerSec,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNetInputBytes != null" >
+        #{totalNetInputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNetOutputBytes != null" >
+        #{totalNetOutputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredKeys != null" >
+        #{expiredKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCpuSys != null" >
+        #{usedCpuSys,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCpuUser != null" >
+        #{usedCpuUser,jdbcType=VARCHAR},
+      </if>
+      <if test="keyspace != null" >
+        #{keyspace,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from redis_status_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update redis_status_history
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.serverId != null" >
+        server_id = #{record.serverId,jdbcType=BIGINT},
+      </if>
+      <if test="record.connectedClients != null" >
+        connected_clients = #{record.connectedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockedClients != null" >
+        blocked_clients = #{record.blockedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemory != null" >
+        used_memory = #{record.usedMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemoryHuman != null" >
+        used_memory_human = #{record.usedMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemoryRss != null" >
+        used_memory_rss = #{record.usedMemoryRss,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemoryRssHuman != null" >
+        used_memory_rss_human = #{record.usedMemoryRssHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemoryPeak != null" >
+        used_memory_peak = #{record.usedMemoryPeak,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedMemoryPeakHuman != null" >
+        used_memory_peak_human = #{record.usedMemoryPeakHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memFragmentationRatio != null" >
+        mem_fragmentation_ratio = #{record.memFragmentationRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalSystemMemory != null" >
+        total_system_memory = #{record.totalSystemMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalSystemMemoryHuman != null" >
+        total_system_memory_human = #{record.totalSystemMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalConnectionsReceived != null" >
+        total_connections_received = #{record.totalConnectionsReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalCommandsProcessed != null" >
+        total_commands_processed = #{record.totalCommandsProcessed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instantaneousOpsPerSec != null" >
+        instantaneous_ops_per_sec = #{record.instantaneousOpsPerSec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNetInputBytes != null" >
+        total_net_input_bytes = #{record.totalNetInputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNetOutputBytes != null" >
+        total_net_output_bytes = #{record.totalNetOutputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expiredKeys != null" >
+        expired_keys = #{record.expiredKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedCpuSys != null" >
+        used_cpu_sys = #{record.usedCpuSys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedCpuUser != null" >
+        used_cpu_user = #{record.usedCpuUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyspace != null" >
+        keyspace = #{record.keyspace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update redis_status_history
+    set id = #{record.id,jdbcType=BIGINT},
+      server_id = #{record.serverId,jdbcType=BIGINT},
+      connected_clients = #{record.connectedClients,jdbcType=VARCHAR},
+      blocked_clients = #{record.blockedClients,jdbcType=VARCHAR},
+      used_memory = #{record.usedMemory,jdbcType=VARCHAR},
+      used_memory_human = #{record.usedMemoryHuman,jdbcType=VARCHAR},
+      used_memory_rss = #{record.usedMemoryRss,jdbcType=VARCHAR},
+      used_memory_rss_human = #{record.usedMemoryRssHuman,jdbcType=VARCHAR},
+      used_memory_peak = #{record.usedMemoryPeak,jdbcType=VARCHAR},
+      used_memory_peak_human = #{record.usedMemoryPeakHuman,jdbcType=VARCHAR},
+      mem_fragmentation_ratio = #{record.memFragmentationRatio,jdbcType=VARCHAR},
+      total_system_memory = #{record.totalSystemMemory,jdbcType=VARCHAR},
+      total_system_memory_human = #{record.totalSystemMemoryHuman,jdbcType=VARCHAR},
+      total_connections_received = #{record.totalConnectionsReceived,jdbcType=VARCHAR},
+      total_commands_processed = #{record.totalCommandsProcessed,jdbcType=VARCHAR},
+      instantaneous_ops_per_sec = #{record.instantaneousOpsPerSec,jdbcType=VARCHAR},
+      total_net_input_bytes = #{record.totalNetInputBytes,jdbcType=VARCHAR},
+      total_net_output_bytes = #{record.totalNetOutputBytes,jdbcType=VARCHAR},
+      expired_keys = #{record.expiredKeys,jdbcType=VARCHAR},
+      used_cpu_sys = #{record.usedCpuSys,jdbcType=VARCHAR},
+      used_cpu_user = #{record.usedCpuUser,jdbcType=VARCHAR},
+      keyspace = #{record.keyspace,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistory" >
+    update redis_status_history
+    <set >
+      <if test="serverId != null" >
+        server_id = #{serverId,jdbcType=BIGINT},
+      </if>
+      <if test="connectedClients != null" >
+        connected_clients = #{connectedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="blockedClients != null" >
+        blocked_clients = #{blockedClients,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemory != null" >
+        used_memory = #{usedMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryHuman != null" >
+        used_memory_human = #{usedMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryRss != null" >
+        used_memory_rss = #{usedMemoryRss,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryRssHuman != null" >
+        used_memory_rss_human = #{usedMemoryRssHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryPeak != null" >
+        used_memory_peak = #{usedMemoryPeak,jdbcType=VARCHAR},
+      </if>
+      <if test="usedMemoryPeakHuman != null" >
+        used_memory_peak_human = #{usedMemoryPeakHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="memFragmentationRatio != null" >
+        mem_fragmentation_ratio = #{memFragmentationRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSystemMemory != null" >
+        total_system_memory = #{totalSystemMemory,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSystemMemoryHuman != null" >
+        total_system_memory_human = #{totalSystemMemoryHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="totalConnectionsReceived != null" >
+        total_connections_received = #{totalConnectionsReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCommandsProcessed != null" >
+        total_commands_processed = #{totalCommandsProcessed,jdbcType=VARCHAR},
+      </if>
+      <if test="instantaneousOpsPerSec != null" >
+        instantaneous_ops_per_sec = #{instantaneousOpsPerSec,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNetInputBytes != null" >
+        total_net_input_bytes = #{totalNetInputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNetOutputBytes != null" >
+        total_net_output_bytes = #{totalNetOutputBytes,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredKeys != null" >
+        expired_keys = #{expiredKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCpuSys != null" >
+        used_cpu_sys = #{usedCpuSys,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCpuUser != null" >
+        used_cpu_user = #{usedCpuUser,jdbcType=VARCHAR},
+      </if>
+      <if test="keyspace != null" >
+        keyspace = #{keyspace,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.org.openwork.nosql.bean.RedisStatusHistory" >
+    update redis_status_history
+    set server_id = #{serverId,jdbcType=BIGINT},
+      connected_clients = #{connectedClients,jdbcType=VARCHAR},
+      blocked_clients = #{blockedClients,jdbcType=VARCHAR},
+      used_memory = #{usedMemory,jdbcType=VARCHAR},
+      used_memory_human = #{usedMemoryHuman,jdbcType=VARCHAR},
+      used_memory_rss = #{usedMemoryRss,jdbcType=VARCHAR},
+      used_memory_rss_human = #{usedMemoryRssHuman,jdbcType=VARCHAR},
+      used_memory_peak = #{usedMemoryPeak,jdbcType=VARCHAR},
+      used_memory_peak_human = #{usedMemoryPeakHuman,jdbcType=VARCHAR},
+      mem_fragmentation_ratio = #{memFragmentationRatio,jdbcType=VARCHAR},
+      total_system_memory = #{totalSystemMemory,jdbcType=VARCHAR},
+      total_system_memory_human = #{totalSystemMemoryHuman,jdbcType=VARCHAR},
+      total_connections_received = #{totalConnectionsReceived,jdbcType=VARCHAR},
+      total_commands_processed = #{totalCommandsProcessed,jdbcType=VARCHAR},
+      instantaneous_ops_per_sec = #{instantaneousOpsPerSec,jdbcType=VARCHAR},
+      total_net_input_bytes = #{totalNetInputBytes,jdbcType=VARCHAR},
+      total_net_output_bytes = #{totalNetOutputBytes,jdbcType=VARCHAR},
+      expired_keys = #{expiredKeys,jdbcType=VARCHAR},
+      used_cpu_sys = #{usedCpuSys,jdbcType=VARCHAR},
+      used_cpu_user = #{usedCpuUser,jdbcType=VARCHAR},
+      keyspace = #{keyspace,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.org.openwork.nosql.mapper.MongodbTopHistoryMapper" >
+  <resultMap id="BaseResultMap" type="cn.org.openwork.nosql.bean.MongodbTopHistory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="server_id" property="serverId" jdbcType="BIGINT" />
+    <result column="ns" property="ns" jdbcType="VARCHAR" />
+    <result column="total_count" property="totalCount" jdbcType="BIGINT" />
+    <result column="total_time" property="totalTime" jdbcType="BIGINT" />
+    <result column="total_count_persecond" property="totalCountPersecond" jdbcType="VARCHAR" />
+    <result column="write_lock_count" property="writeLockCount" jdbcType="BIGINT" />
+    <result column="write_lock_time" property="writeLockTime" jdbcType="BIGINT" />
+    <result column="write_lock_count_persecond" property="writeLockCountPersecond" jdbcType="VARCHAR" />
+    <result column="read_lock_count" property="readLockCount" jdbcType="BIGINT" />
+    <result column="read_lock_time" property="readLockTime" jdbcType="BIGINT" />
+    <result column="read_lock_count_persecond" property="readLockCountPersecond" jdbcType="VARCHAR" />
+    <result column="insert_count" property="insertCount" jdbcType="BIGINT" />
+    <result column="insert_time" property="insertTime" jdbcType="BIGINT" />
+    <result column="insert_count_persecond" property="insertCountPersecond" jdbcType="VARCHAR" />
+    <result column="update_count" property="updateCount" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="update_count_persecond" property="updateCountPersecond" jdbcType="VARCHAR" />
+    <result column="get_more_count" property="getMoreCount" jdbcType="BIGINT" />
+    <result column="get_more_time" property="getMoreTime" jdbcType="BIGINT" />
+    <result column="get_more_count_persecond" property="getMoreCountPersecond" jdbcType="VARCHAR" />
+    <result column="queries_count" property="queriesCount" jdbcType="BIGINT" />
+    <result column="queries_time" property="queriesTime" jdbcType="BIGINT" />
+    <result column="queries_count_persecond" property="queriesCountPersecond" jdbcType="VARCHAR" />
+    <result column="remove_count" property="removeCount" jdbcType="BIGINT" />
+    <result column="remove_time" property="removeTime" jdbcType="BIGINT" />
+    <result column="remove_count_persecond" property="removeCountPersecond" jdbcType="VARCHAR" />
+    <result column="commands_count" property="commandsCount" jdbcType="BIGINT" />
+    <result column="commands_time" property="commandsTime" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, server_id, ns, total_count, total_time, total_count_persecond, write_lock_count, 
+    write_lock_time, write_lock_count_persecond, read_lock_count, read_lock_time, read_lock_count_persecond, 
+    insert_count, insert_time, insert_count_persecond, update_count, update_time, update_count_persecond, 
+    get_more_count, get_more_time, get_more_count_persecond, queries_count, queries_time, 
+    queries_count_persecond, remove_count, remove_time, remove_count_persecond, commands_count, 
+    commands_time, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mongodb_top_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart >= 0" >
+      limit ${limitStart} , ${pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mongodb_top_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mongodb_top_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistoryExample" >
+    delete from mongodb_top_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistory" useGeneratedKeys="true" keyProperty="id" >
+    insert into mongodb_top_history (id, server_id, ns, 
+      total_count, total_time, total_count_persecond, 
+      write_lock_count, write_lock_time, write_lock_count_persecond, 
+      read_lock_count, read_lock_time, read_lock_count_persecond, 
+      insert_count, insert_time, insert_count_persecond, 
+      update_count, update_time, update_count_persecond, 
+      get_more_count, get_more_time, get_more_count_persecond, 
+      queries_count, queries_time, queries_count_persecond, 
+      remove_count, remove_time, remove_count_persecond, 
+      commands_count, commands_time, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{serverId,jdbcType=BIGINT}, #{ns,jdbcType=VARCHAR}, 
+      #{totalCount,jdbcType=BIGINT}, #{totalTime,jdbcType=BIGINT}, #{totalCountPersecond,jdbcType=VARCHAR}, 
+      #{writeLockCount,jdbcType=BIGINT}, #{writeLockTime,jdbcType=BIGINT}, #{writeLockCountPersecond,jdbcType=VARCHAR}, 
+      #{readLockCount,jdbcType=BIGINT}, #{readLockTime,jdbcType=BIGINT}, #{readLockCountPersecond,jdbcType=VARCHAR}, 
+      #{insertCount,jdbcType=BIGINT}, #{insertTime,jdbcType=BIGINT}, #{insertCountPersecond,jdbcType=VARCHAR}, 
+      #{updateCount,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{updateCountPersecond,jdbcType=VARCHAR}, 
+      #{getMoreCount,jdbcType=BIGINT}, #{getMoreTime,jdbcType=BIGINT}, #{getMoreCountPersecond,jdbcType=VARCHAR}, 
+      #{queriesCount,jdbcType=BIGINT}, #{queriesTime,jdbcType=BIGINT}, #{queriesCountPersecond,jdbcType=VARCHAR}, 
+      #{removeCount,jdbcType=BIGINT}, #{removeTime,jdbcType=BIGINT}, #{removeCountPersecond,jdbcType=VARCHAR}, 
+      #{commandsCount,jdbcType=BIGINT}, #{commandsTime,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistory" useGeneratedKeys="true" keyProperty="id" >
+    insert into mongodb_top_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serverId != null" >
+        server_id,
+      </if>
+      <if test="ns != null" >
+        ns,
+      </if>
+      <if test="totalCount != null" >
+        total_count,
+      </if>
+      <if test="totalTime != null" >
+        total_time,
+      </if>
+      <if test="totalCountPersecond != null" >
+        total_count_persecond,
+      </if>
+      <if test="writeLockCount != null" >
+        write_lock_count,
+      </if>
+      <if test="writeLockTime != null" >
+        write_lock_time,
+      </if>
+      <if test="writeLockCountPersecond != null" >
+        write_lock_count_persecond,
+      </if>
+      <if test="readLockCount != null" >
+        read_lock_count,
+      </if>
+      <if test="readLockTime != null" >
+        read_lock_time,
+      </if>
+      <if test="readLockCountPersecond != null" >
+        read_lock_count_persecond,
+      </if>
+      <if test="insertCount != null" >
+        insert_count,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="insertCountPersecond != null" >
+        insert_count_persecond,
+      </if>
+      <if test="updateCount != null" >
+        update_count,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateCountPersecond != null" >
+        update_count_persecond,
+      </if>
+      <if test="getMoreCount != null" >
+        get_more_count,
+      </if>
+      <if test="getMoreTime != null" >
+        get_more_time,
+      </if>
+      <if test="getMoreCountPersecond != null" >
+        get_more_count_persecond,
+      </if>
+      <if test="queriesCount != null" >
+        queries_count,
+      </if>
+      <if test="queriesTime != null" >
+        queries_time,
+      </if>
+      <if test="queriesCountPersecond != null" >
+        queries_count_persecond,
+      </if>
+      <if test="removeCount != null" >
+        remove_count,
+      </if>
+      <if test="removeTime != null" >
+        remove_time,
+      </if>
+      <if test="removeCountPersecond != null" >
+        remove_count_persecond,
+      </if>
+      <if test="commandsCount != null" >
+        commands_count,
+      </if>
+      <if test="commandsTime != null" >
+        commands_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="serverId != null" >
+        #{serverId,jdbcType=BIGINT},
+      </if>
+      <if test="ns != null" >
+        #{ns,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCount != null" >
+        #{totalCount,jdbcType=BIGINT},
+      </if>
+      <if test="totalTime != null" >
+        #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="totalCountPersecond != null" >
+        #{totalCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="writeLockCount != null" >
+        #{writeLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="writeLockTime != null" >
+        #{writeLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="writeLockCountPersecond != null" >
+        #{writeLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="readLockCount != null" >
+        #{readLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="readLockTime != null" >
+        #{readLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="readLockCountPersecond != null" >
+        #{readLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="insertCount != null" >
+        #{insertCount,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=BIGINT},
+      </if>
+      <if test="insertCountPersecond != null" >
+        #{insertCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="updateCount != null" >
+        #{updateCount,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateCountPersecond != null" >
+        #{updateCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="getMoreCount != null" >
+        #{getMoreCount,jdbcType=BIGINT},
+      </if>
+      <if test="getMoreTime != null" >
+        #{getMoreTime,jdbcType=BIGINT},
+      </if>
+      <if test="getMoreCountPersecond != null" >
+        #{getMoreCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="queriesCount != null" >
+        #{queriesCount,jdbcType=BIGINT},
+      </if>
+      <if test="queriesTime != null" >
+        #{queriesTime,jdbcType=BIGINT},
+      </if>
+      <if test="queriesCountPersecond != null" >
+        #{queriesCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="removeCount != null" >
+        #{removeCount,jdbcType=BIGINT},
+      </if>
+      <if test="removeTime != null" >
+        #{removeTime,jdbcType=BIGINT},
+      </if>
+      <if test="removeCountPersecond != null" >
+        #{removeCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="commandsCount != null" >
+        #{commandsCount,jdbcType=BIGINT},
+      </if>
+      <if test="commandsTime != null" >
+        #{commandsTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from mongodb_top_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mongodb_top_history
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.serverId != null" >
+        server_id = #{record.serverId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ns != null" >
+        ns = #{record.ns,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalCount != null" >
+        total_count = #{record.totalCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalTime != null" >
+        total_time = #{record.totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalCountPersecond != null" >
+        total_count_persecond = #{record.totalCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.writeLockCount != null" >
+        write_lock_count = #{record.writeLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.writeLockTime != null" >
+        write_lock_time = #{record.writeLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.writeLockCountPersecond != null" >
+        write_lock_count_persecond = #{record.writeLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readLockCount != null" >
+        read_lock_count = #{record.readLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.readLockTime != null" >
+        read_lock_time = #{record.readLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.readLockCountPersecond != null" >
+        read_lock_count_persecond = #{record.readLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insertCount != null" >
+        insert_count = #{record.insertCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.insertTime != null" >
+        insert_time = #{record.insertTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.insertCountPersecond != null" >
+        insert_count_persecond = #{record.insertCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateCount != null" >
+        update_count = #{record.updateCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateCountPersecond != null" >
+        update_count_persecond = #{record.updateCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.getMoreCount != null" >
+        get_more_count = #{record.getMoreCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.getMoreTime != null" >
+        get_more_time = #{record.getMoreTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.getMoreCountPersecond != null" >
+        get_more_count_persecond = #{record.getMoreCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.queriesCount != null" >
+        queries_count = #{record.queriesCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.queriesTime != null" >
+        queries_time = #{record.queriesTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.queriesCountPersecond != null" >
+        queries_count_persecond = #{record.queriesCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.removeCount != null" >
+        remove_count = #{record.removeCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.removeTime != null" >
+        remove_time = #{record.removeTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.removeCountPersecond != null" >
+        remove_count_persecond = #{record.removeCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commandsCount != null" >
+        commands_count = #{record.commandsCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.commandsTime != null" >
+        commands_time = #{record.commandsTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mongodb_top_history
+    set id = #{record.id,jdbcType=BIGINT},
+      server_id = #{record.serverId,jdbcType=BIGINT},
+      ns = #{record.ns,jdbcType=VARCHAR},
+      total_count = #{record.totalCount,jdbcType=BIGINT},
+      total_time = #{record.totalTime,jdbcType=BIGINT},
+      total_count_persecond = #{record.totalCountPersecond,jdbcType=VARCHAR},
+      write_lock_count = #{record.writeLockCount,jdbcType=BIGINT},
+      write_lock_time = #{record.writeLockTime,jdbcType=BIGINT},
+      write_lock_count_persecond = #{record.writeLockCountPersecond,jdbcType=VARCHAR},
+      read_lock_count = #{record.readLockCount,jdbcType=BIGINT},
+      read_lock_time = #{record.readLockTime,jdbcType=BIGINT},
+      read_lock_count_persecond = #{record.readLockCountPersecond,jdbcType=VARCHAR},
+      insert_count = #{record.insertCount,jdbcType=BIGINT},
+      insert_time = #{record.insertTime,jdbcType=BIGINT},
+      insert_count_persecond = #{record.insertCountPersecond,jdbcType=VARCHAR},
+      update_count = #{record.updateCount,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      update_count_persecond = #{record.updateCountPersecond,jdbcType=VARCHAR},
+      get_more_count = #{record.getMoreCount,jdbcType=BIGINT},
+      get_more_time = #{record.getMoreTime,jdbcType=BIGINT},
+      get_more_count_persecond = #{record.getMoreCountPersecond,jdbcType=VARCHAR},
+      queries_count = #{record.queriesCount,jdbcType=BIGINT},
+      queries_time = #{record.queriesTime,jdbcType=BIGINT},
+      queries_count_persecond = #{record.queriesCountPersecond,jdbcType=VARCHAR},
+      remove_count = #{record.removeCount,jdbcType=BIGINT},
+      remove_time = #{record.removeTime,jdbcType=BIGINT},
+      remove_count_persecond = #{record.removeCountPersecond,jdbcType=VARCHAR},
+      commands_count = #{record.commandsCount,jdbcType=BIGINT},
+      commands_time = #{record.commandsTime,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistory" >
+    update mongodb_top_history
+    <set >
+      <if test="serverId != null" >
+        server_id = #{serverId,jdbcType=BIGINT},
+      </if>
+      <if test="ns != null" >
+        ns = #{ns,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCount != null" >
+        total_count = #{totalCount,jdbcType=BIGINT},
+      </if>
+      <if test="totalTime != null" >
+        total_time = #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="totalCountPersecond != null" >
+        total_count_persecond = #{totalCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="writeLockCount != null" >
+        write_lock_count = #{writeLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="writeLockTime != null" >
+        write_lock_time = #{writeLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="writeLockCountPersecond != null" >
+        write_lock_count_persecond = #{writeLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="readLockCount != null" >
+        read_lock_count = #{readLockCount,jdbcType=BIGINT},
+      </if>
+      <if test="readLockTime != null" >
+        read_lock_time = #{readLockTime,jdbcType=BIGINT},
+      </if>
+      <if test="readLockCountPersecond != null" >
+        read_lock_count_persecond = #{readLockCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="insertCount != null" >
+        insert_count = #{insertCount,jdbcType=BIGINT},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=BIGINT},
+      </if>
+      <if test="insertCountPersecond != null" >
+        insert_count_persecond = #{insertCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="updateCount != null" >
+        update_count = #{updateCount,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateCountPersecond != null" >
+        update_count_persecond = #{updateCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="getMoreCount != null" >
+        get_more_count = #{getMoreCount,jdbcType=BIGINT},
+      </if>
+      <if test="getMoreTime != null" >
+        get_more_time = #{getMoreTime,jdbcType=BIGINT},
+      </if>
+      <if test="getMoreCountPersecond != null" >
+        get_more_count_persecond = #{getMoreCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="queriesCount != null" >
+        queries_count = #{queriesCount,jdbcType=BIGINT},
+      </if>
+      <if test="queriesTime != null" >
+        queries_time = #{queriesTime,jdbcType=BIGINT},
+      </if>
+      <if test="queriesCountPersecond != null" >
+        queries_count_persecond = #{queriesCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="removeCount != null" >
+        remove_count = #{removeCount,jdbcType=BIGINT},
+      </if>
+      <if test="removeTime != null" >
+        remove_time = #{removeTime,jdbcType=BIGINT},
+      </if>
+      <if test="removeCountPersecond != null" >
+        remove_count_persecond = #{removeCountPersecond,jdbcType=VARCHAR},
+      </if>
+      <if test="commandsCount != null" >
+        commands_count = #{commandsCount,jdbcType=BIGINT},
+      </if>
+      <if test="commandsTime != null" >
+        commands_time = #{commandsTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.org.openwork.nosql.bean.MongodbTopHistory" >
+    update mongodb_top_history
+    set server_id = #{serverId,jdbcType=BIGINT},
+      ns = #{ns,jdbcType=VARCHAR},
+      total_count = #{totalCount,jdbcType=BIGINT},
+      total_time = #{totalTime,jdbcType=BIGINT},
+      total_count_persecond = #{totalCountPersecond,jdbcType=VARCHAR},
+      write_lock_count = #{writeLockCount,jdbcType=BIGINT},
+      write_lock_time = #{writeLockTime,jdbcType=BIGINT},
+      write_lock_count_persecond = #{writeLockCountPersecond,jdbcType=VARCHAR},
+      read_lock_count = #{readLockCount,jdbcType=BIGINT},
+      read_lock_time = #{readLockTime,jdbcType=BIGINT},
+      read_lock_count_persecond = #{readLockCountPersecond,jdbcType=VARCHAR},
+      insert_count = #{insertCount,jdbcType=BIGINT},
+      insert_time = #{insertTime,jdbcType=BIGINT},
+      insert_count_persecond = #{insertCountPersecond,jdbcType=VARCHAR},
+      update_count = #{updateCount,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_count_persecond = #{updateCountPersecond,jdbcType=VARCHAR},
+      get_more_count = #{getMoreCount,jdbcType=BIGINT},
+      get_more_time = #{getMoreTime,jdbcType=BIGINT},
+      get_more_count_persecond = #{getMoreCountPersecond,jdbcType=VARCHAR},
+      queries_count = #{queriesCount,jdbcType=BIGINT},
+      queries_time = #{queriesTime,jdbcType=BIGINT},
+      queries_count_persecond = #{queriesCountPersecond,jdbcType=VARCHAR},
+      remove_count = #{removeCount,jdbcType=BIGINT},
+      remove_time = #{removeTime,jdbcType=BIGINT},
+      remove_count_persecond = #{removeCountPersecond,jdbcType=VARCHAR},
+      commands_count = #{commandsCount,jdbcType=BIGINT},
+      commands_time = #{commandsTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
